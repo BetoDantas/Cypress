@@ -1,15 +1,31 @@
 context('',() => {
-    it('',() => {
+    it('Depósito',() => {
         cy.visit("https://devfinance-agilizei.netlify.app/#")
 
-        cy.contains('Nova Transação').click()
+        criarTrasacao("Salario", 1550)
+        cy.get("tbody tr td.description").should("have.text", "Salario")
 
-        cy.get('#description').type("Freela")
+        criarTrasacao("Mensalidade", -450)
+        cy.get("tbody tr td.description").should("have.text", "Mensalidade")
 
-        cy.get('#amount').type(250)
+    });
 
-        cy.get("#date").type("2023-03-17")
+    it('Saída', () =>{
+        cy.visit("https://devfinance-agilizei.netlify.app/#")
 
-        cy.contains('button', 'Salvar').click()
+        criarTrasacao("Coxinha", -200)
+        cy.get("tbody tr td.description").should("have.text", "Coxinha")
     });
 });
+
+function criarTrasacao(descricao, valor){
+    cy.contains('Nova Transação').click()
+
+    cy.get('#description').type(descricao)
+
+    cy.get('#amount').type(valor)
+
+    cy.get("#date").type("2023-03-17")
+
+    cy.contains('button', 'Salvar').click()
+}

@@ -1,20 +1,36 @@
 context('',() => {
-    it('Depósito',() => {
+    
+    beforeEach(() => {
         cy.visit("https://devfinance-agilizei.netlify.app/#")
+    });
+    
+    
+    it('Depósito',() => {
+       
 
         criarTrasacao("Salario", 1550)
         cy.get("tbody tr td.description").should("have.text", "Salario")
 
-        criarTrasacao("Mensalidade", -450)
-        cy.get("tbody tr td.description").should("have.text", "Mensalidade")
+        criarTrasacao("Saque", -450)
+        //cy.get("tbody tr td.description").should("have.text", "Saque")
 
     });
 
     it('Saída', () =>{
-        cy.visit("https://devfinance-agilizei.netlify.app/#")
-
+        
+       
         criarTrasacao("Coxinha", -200)
+        
         cy.get("tbody tr td.description").should("have.text", "Coxinha")
+    });
+
+    it('Excluir transação', () => {
+        criarTrasacao("Salario", 1222)
+        cy.contains(".description", "Salario").parent()
+        .find('img')
+        .click()
+
+        //cy.get("tbody tr").should("have.length", 1)
     });
 });
 
